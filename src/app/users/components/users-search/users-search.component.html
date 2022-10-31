@@ -1,0 +1,17 @@
+<app-users-search-form (filter)="onFilter($event)"> </app-users-search-form>
+<div *ngIf="(isLoadingData$ | async)" class="spinner-container">
+  <mat-spinner></mat-spinner>
+</div>
+<ng-container>
+  <app-users-search-results [users]="(users$ | async) || []"> </app-users-search-results>
+  <mat-paginator *ngIf="(pagination$ | async) as pagination"
+                 [length]="pagination.totalCount"
+                 [pageIndex]="pagination.page.current - 1"
+                 [pageSize]="pagination.sizePerPage"
+                 [pageSizeOptions]="pageSizeOptions"
+                 (page)="onPaginatorEvt($event)"
+                 aria-label="Select page">
+  </mat-paginator>
+</ng-container>
+
+
