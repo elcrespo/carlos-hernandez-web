@@ -4,6 +4,8 @@ import { HttpClientModule } from '@angular/common/http'
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import {UserWebRepository} from "./users/adapters/user-web-repository";
+import {UserSearchDisplayerService} from "./users/adapters/user-search-displayer.service";
 
 @NgModule({
   declarations: [
@@ -15,7 +17,10 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
     HttpClientModule,
     BrowserAnimationsModule
   ],
-  providers: [],
+  providers: [
+    { provide: 'UserRepository', useClass: UserWebRepository},
+    { provide: 'UserSearchDisplayerRepository', useClass: UserSearchDisplayerService}
+  ],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

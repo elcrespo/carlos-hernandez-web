@@ -1,10 +1,37 @@
 import { Injectable } from '@angular/core';
-import UserRepository, {UserQueryParams} from "./user.repository";
+import UserRepository, {UserQueryParams} from "../domain/ports/user.repository";
 import {map, Observable} from "rxjs";
 import { UserWebRepositoryMapper } from "./user-web-repository-mapper";
 import {HttpClient, HttpParams} from "@angular/common/http";
-import {UserWebEntity} from "../domain/models/user-web-entity";
 import {UserEntity} from "../domain/models/user-entity";
+
+export interface UserWeb {
+  id: number;
+  login: string;
+  node_id: string;
+  avatar_url: string;
+  gravatar_id: string;
+  url: string;
+  html_url: string;
+  followers_url: string;
+  following_url: string;
+  gists_url: string;
+  starred_url: string;
+  subscriptions_url: string;
+  organizations_url: string;
+  repos_url: string;
+  events_url: string;
+  received_events_url: string;
+  type: string;
+  site_admin: string;
+  score: number;
+}
+
+export interface UserWebEntity {
+  total_count: number;
+  incomplete_results: boolean;
+  items: UserWeb[]
+}
 
 @Injectable({
   providedIn: 'root'

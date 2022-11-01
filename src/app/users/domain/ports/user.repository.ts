@@ -1,6 +1,5 @@
-import { User } from "../domain/models/user";
 import { Observable } from "rxjs";
-import {UserEntity} from "../domain/models/user-entity";
+import {UserEntity} from "../models/user-entity";
 
 export interface UserQueryParams {
   perPage: number;

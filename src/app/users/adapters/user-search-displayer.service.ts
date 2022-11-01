@@ -1,5 +1,4 @@
-import { Injectable } from '@angular/core';
-import { UserWebRepository } from "../repository/user-web-repository";
+import {Inject, Injectable} from '@angular/core';
 import {
   BehaviorSubject,
   combineLatest,
@@ -10,15 +9,16 @@ import {
   Subject,
   switchMap, tap
 } from "rxjs";
-import { UserEntity} from "./models/user-entity";
+import {Paginator, PaginatorEvt, UserEntity} from "../domain/models/user-entity";
 import { Filter } from "../components/users-search-form/users-search-form.component";
-import { UserQueryParams } from "../repository/user.repository";
-import { PaginatorEvt } from "../../core/components/paginator/paginator.component";
+import UserRepository, { UserQueryParams } from "../domain/ports/user.repository";
+import {User} from "../domain/models/user";
+import UserSearchDisplayerRepository from "../domain/ports/user-search-displayer.repository";
 
 @Injectable({
   providedIn: 'root'
 })
-export class UserSearchDisplayerService {
+export class UserSearchDisplayerService implements UserSearchDisplayerRepository{
   private isLoadingSubject: BehaviorSubject<boolean> = new BehaviorSubject<boolean>(false);
   private paginatorSubject: BehaviorSubject<PaginatorEvt> = new BehaviorSubject<PaginatorEvt>({length:0, pageIndex: 0, pageSize: 9});
   private paginator$: Observable<PaginatorEvt> = this.paginatorSubject.asObservable();
@@ -39,13 +39,13 @@ export class UserSearchDisplayerService {
     )),
     shareReplay(1)
   );
-  users$ = this.searchResult$.pipe(
+  users$:Observable<User[]> = this.searchResult$.pipe(
     map(results => results.items)
   );
-  pagination$ = this.searchResult$.pipe(map(results => results?.paginator));
-  isloadingData$ = this.isLoadingSubject.asObservable();
+  pagination$: Observable<Paginator> = this.searchResult$.pipe(map(results => results?.paginator));
+  isLoadingData$: Observable<boolean> = this.isLoadingSubject.asObservable();
 
-  constructor(private userRepository: UserWebRepository) {}
+  constructor( @Inject('UserRepository') private userRepository: UserRepository) {}
 
   setFilter(filter: Filter) {
     this.filterSubject.next(filter);

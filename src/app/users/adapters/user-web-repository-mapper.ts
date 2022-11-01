@@ -1,6 +1,6 @@
 import { Mapper } from "../../core/base/mapper";
-import { UserWebEntity } from "../domain/models/user-web-entity";
 import { UserEntity } from "../domain/models/user-entity";
+import {UserWebEntity} from "./user-web-repository";
 
 export class UserWebRepositoryMapper implements Mapper<UserWebEntity, UserEntity> {
   mapFrom(param: UserWebEntity): UserEntity {
